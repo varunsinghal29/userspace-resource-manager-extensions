@@ -168,3 +168,248 @@ SignalConfigs:
       - {ResCode: "RES_CGRP_CPU_LATENCY", Values: [4, -20]}
       - {ResCode: "RES_CGRP_LOW_MEM", Values: [4, 507256]}
       - {ResCode: "RES_CGRP_MIN_MEM", Values: [4, 116631]}
+
+  # Perflock config 0x00001330 - Sustained BW + Sched tuning (no Bus DCVS max freq)
+  # DDR min 933MHz, CPUBW HWMON tuning, sched migration tuning
+  - SigId: "0x1330"
+    Category: "0xea"
+    SigType: 0
+    Name: "URM_SIG_PERFLOCK_Preview"
+    Enable: true
+    TargetsEnabled: ["seraph"]
+    Permissions: ["third_party", "system"]
+    Timeout: -1
+    Resources:
+      # CPUBW HWMON tuning
+      - {ResCode: "RES_CPUBW_HWMON_MAXFREQ",        Values: [33]}
+      - {ResCode: "RES_CPUBW_HWMON_HYST_LENGTH",     Values: [100]}
+      - {ResCode: "RES_CPUBW_HWMON_NTOKENS",         Values: [0]}
+      - {ResCode: "RES_CPUBW_HWMON_DDR_MINFREQ",     Values: [933000]}
+      # Bus DCVS tuning
+      - {ResCode: "RES_BUS_DCVS_HYST_OPT",          Values: [33]}
+      # Scheduler / colocation tuning
+      - {ResCode: "RES_SCHED_COLOC_DEMAND_NS",       Values: [100]}
+      - {ResCode: "RES_SCHED_GROUP_UPMIGRATE",       Values: [0]}
+      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [0]}
+      - {ResCode: "RES_SCHED_DOWNMIGRATE",           Values: [99]}
+      - {ResCode: "RES_SCHED_UCLAMP_MIN",            Values: [50]}
+
+  # Perflock config 0x00001331 - Sustained BW + Sched tuning (with Bus DCVS max freq)
+  # DDR min 933MHz, Bus DCVS max 1555MHz, CPUBW HWMON tuning, sched migration tuning
+  - SigId: "0x1331"
+    Category: "0xea"
+    SigType: 0
+    Name: "URM_SIG_PERFLOCK_VideoEncode"
+    Enable: true
+    TargetsEnabled: ["seraph"]
+    Permissions: ["third_party", "system"]
+    Timeout: -1
+    Resources:
+      # CPUBW HWMON tuning
+      - {ResCode: "RES_CPUBW_HWMON_MAXFREQ",        Values: [33]}
+      - {ResCode: "RES_CPUBW_HWMON_HYST_LENGTH",     Values: [100]}
+      - {ResCode: "RES_CPUBW_HWMON_NTOKENS",         Values: [0]}
+      - {ResCode: "RES_CPUBW_HWMON_DDR_MINFREQ",     Values: [933000]}
+      # Bus DCVS tuning
+      - {ResCode: "RES_BUS_DCVS_HYST_OPT",          Values: [33]}
+      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
+      # Scheduler / colocation tuning
+      - {ResCode: "RES_SCHED_COLOC_DEMAND_NS",       Values: [100]}
+      - {ResCode: "RES_SCHED_GROUP_UPMIGRATE",       Values: [0]}
+      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [0]}
+      - {ResCode: "RES_SCHED_DOWNMIGRATE",           Values: [99]}
+      - {ResCode: "RES_SCHED_UCLAMP_MIN",            Values: [50]}
+
+  # Perflock config 0x00001332 - CPU freq boost + BW + Sched + INTERACTIVE tuning
+  # CPU cluster0 min 1497MHz, cluster1 min 960MHz, CPU max locked to 65535
+  # DDR min 933MHz, Bus DCVS max 1555MHz, sched upmigrate tuning, INTERACTIVE hispeed/go_hispeed
+  - SigId: "0x1332"
+    Category: "0xea"
+    SigType: 0
+    Name: "URM_SIG_PERFLOCK_VideoEncode60FPS"
+    Enable: true
+    TargetsEnabled: ["seraph"]
+    Permissions: ["third_party", "system"]
+    Timeout: -1
+    Resources:
+      # CPU freq: cluster1 min freq = 960 MHz
+      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [1, 960]}
+      # CPUBW HWMON tuning
+      - {ResCode: "RES_CPUBW_HWMON_MAXFREQ",        Values: [16]}
+      - {ResCode: "RES_CPUBW_HWMON_HYST_LENGTH",     Values: [100]}
+      - {ResCode: "RES_CPUBW_HWMON_NTOKENS",         Values: [0]}
+      - {ResCode: "RES_CPUBW_HWMON_DDR_MINFREQ",     Values: [933000]}
+      # Bus DCVS tuning
+      - {ResCode: "RES_BUS_DCVS_HYST_OPT",          Values: [16]}
+      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
+      # CPU freq: cluster0 max freq = 65535 (unlock), min freq = 1497 MHz
+      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [0, 65535]}
+      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [0, 1497]}
+      # Scheduler / colocation tuning
+      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [1, 0]}
+      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [0, 0]}
+      - {ResCode: "RES_SCHED_DOWNMIGRATE",           Values: [99]}
+      # INTERACTIVE: hispeed_freq cluster0 = 0x23001E, cluster2 = 0x550055
+      - {ResCode: "RES_INTERACTIVE_HISPEED_FREQ",    Values: [0, 2293790]}
+      - {ResCode: "RES_INTERACTIVE_HISPEED_FREQ",    Values: [2, 5570645]}
+      # Memory: LLCC power collapse = 0
+      - {ResCode: "RES_MEMORY_LLCC_POWER_COLLAPSE",  Values: [0]}
+      # Scheduler group uclamp min
+      - {ResCode: "RES_SCHED_UCLAMP_MIN",            Values: [50]}
+
+  # Perflock config 0x00001333 - CPU freq boost (cluster1) + BW + Sched + INTERACTIVE
+  # CPU cluster1 max 1094 MHz, DDR min 933MHz, Bus DCVS max 1555MHz, sched + INTERACTIVE tuning
+  - SigId: "0x1333"
+    Category: "0xea"
+    SigType: 0
+    Name: "URM_SIG_PERFLOCK_VideoEncodeHFR"
+    Enable: true
+    TargetsEnabled: ["seraph"]
+    Permissions: ["third_party", "system"]
+    Timeout: -1
+    Resources:
+      # CPUBW HWMON tuning
+      - {ResCode: "RES_CPUBW_HWMON_MAXFREQ",        Values: [16]}
+      - {ResCode: "RES_CPUBW_HWMON_HYST_LENGTH",     Values: [100]}
+      - {ResCode: "RES_CPUBW_HWMON_NTOKENS",         Values: [0]}
+      - {ResCode: "RES_CPUBW_HWMON_DDR_MINFREQ",     Values: [933000]}
+      # Bus DCVS tuning
+      - {ResCode: "RES_BUS_DCVS_HYST_OPT",          Values: [16]}
+      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
+      # CPU freq: cluster1 max freq = 1094 MHz
+      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [1, 1094]}
+      # Scheduler / colocation tuning
+      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [1, 0]}
+      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [0, 0]}
+      - {ResCode: "RES_SCHED_DOWNMIGRATE",           Values: [99]}
+      # INTERACTIVE: hispeed_freq cluster0 = 0x23001E, cluster2 = 0x550055
+      - {ResCode: "RES_INTERACTIVE_HISPEED_FREQ",    Values: [0, 2293790]}
+      - {ResCode: "RES_INTERACTIVE_HISPEED_FREQ",    Values: [2, 5570645]}
+      # Memory: LLCC power collapse = 0
+      - {ResCode: "RES_MEMORY_LLCC_POWER_COLLAPSE",  Values: [0]}
+
+  # Perflock config 0x00001334 - Display on + CPU min freq + CPUBW HWMON light tuning
+  # Display wake=1, cluster0 min 1228MHz, cluster1 min 1036MHz, CPUBW HWMON sampling/io_percent
+  - SigId: "0x1334"
+    Category: "0xea"
+    SigType: 0
+    Name: "URM_SIG_PERFLOCK_VideoEncodeHFR480FPS"
+    Enable: true
+    TargetsEnabled: ["seraph"]
+    Permissions: ["third_party", "system"]
+    Timeout: -1
+    Resources:
+      # Display: keep display on
+      - {ResCode: "RES_DISPLAY_KEEP_ON",             Values: [1]}
+      # CPU freq: cluster1 min = 1036 MHz, cluster0 min = 1228 MHz
+      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [1, 1036]}
+      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [0, 1228]}
+      # INTERACTIVE: go_hispeed_load = 20, hispeed_load = 30
+      - {ResCode: "RES_INTERACTIVE_GO_HISPEED_LOAD", Values: [20]}
+      - {ResCode: "RES_INTERACTIVE_HISPEED_LOAD",    Values: [30]}
+      # CPUBW HWMON tuning
+      - {ResCode: "RES_CPUBW_HWMON_SAMPLE_MS",       Values: [10]}
+      - {ResCode: "RES_CPUBW_HWMON_IO_PERCENT",      Values: [80]}
+      - {ResCode: "RES_CPUBW_HWMON_LOW_POWER_CEIL_MBPS", Values: [0]}
+
+  # Perflock config 0x00001337 - Display on + CPU max freq lock + Bus DCVS max
+  # Display wake=1, perf enable=1, cluster0 max/min 2035MHz, cluster1 max/min 1997MHz, Bus DCVS max 1555MHz
+  - SigId: "0x1337"
+    Category: "0xea"
+    SigType: 0
+    Name: "URM_SIG_PERFLOCK_OpenCamera"
+    Enable: true
+    TargetsEnabled: ["seraph"]
+    Permissions: ["third_party", "system"]
+    Timeout: -1
+    Resources:
+      # Display: keep display on
+      - {ResCode: "RES_DISPLAY_KEEP_ON",             Values: [1]}
+      # INTERACTIVE: perf mode enable
+      - {ResCode: "RES_INTERACTIVE_PERF_ENABLE",     Values: [1]}
+      # CPU freq: cluster0 max = 2035 MHz, min = 2035 MHz
+      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [0, 2035]}
+      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [0, 2035]}
+      # CPU freq: cluster1 max = 1997 MHz, min = 1997 MHz
+      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [1, 1997]}
+      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [1, 1997]}
+      # Bus DCVS: max freq = 1555 MHz
+      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
+
+  # Perflock config 0x00001338 - identical to 0x00001337
+  # Display on + CPU max freq lock + Bus DCVS max
+  - SigId: "0x1338"
+    Category: "0xea"
+    SigType: 0
+    Name: "URM_SIG_PERFLOCK_CloseCamera"
+    Enable: true
+    TargetsEnabled: ["seraph"]
+    Permissions: ["third_party", "system"]
+    Timeout: -1
+    Resources:
+      # Display: keep display on
+      - {ResCode: "RES_DISPLAY_KEEP_ON",             Values: [1]}
+      # INTERACTIVE: perf mode enable
+      - {ResCode: "RES_INTERACTIVE_PERF_ENABLE",     Values: [1]}
+      # CPU freq: cluster0 max = 2035 MHz, min = 2035 MHz
+      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [0, 2035]}
+      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [0, 2035]}
+      # CPU freq: cluster1 max = 1997 MHz, min = 1997 MHz
+      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [1, 1997]}
+      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [1, 1997]}
+      # Bus DCVS: max freq = 1555 MHz
+      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
+
+  # Perflock config 0x00001339 - Minimal: display on + CPU cluster0 min freq
+  - SigId: "0x1339"
+    Category: "0xea"
+    SigType: 0
+    Name: "URM_SIG_PERFLOCK_SnapshotCapture"
+    Enable: true
+    TargetsEnabled: ["seraph"]
+    Permissions: ["third_party", "system"]
+    Timeout: -1
+    Resources:
+      # Display: keep display on
+      - {ResCode: "RES_DISPLAY_KEEP_ON",             Values: [1]}
+      # CPU freq: cluster0 min = 1113 MHz
+      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [0, 1113]}
+
+  # Perflock config 0x00001406 - identical resources to 0x00001331
+  # DDR min 933MHz, Bus DCVS max 1555MHz, CPUBW HWMON tuning, sched migration tuning
+  - SigId: "0x1406"
+    Category: "0xea"
+    SigType: 0
+    Name: "URM_SIG_PERFLOCK_VideoEncode3k"
+    Enable: true
+    TargetsEnabled: ["seraph"]
+    Permissions: ["third_party", "system"]
+    Timeout: -1
+    Resources:
+      # CPUBW HWMON tuning
+      - {ResCode: "RES_CPUBW_HWMON_MAXFREQ",        Values: [33]}
+      - {ResCode: "RES_CPUBW_HWMON_HYST_LENGTH",     Values: [100]}
+      - {ResCode: "RES_CPUBW_HWMON_NTOKENS",         Values: [0]}
+      - {ResCode: "RES_CPUBW_HWMON_DDR_MINFREQ",     Values: [933000]}
+      # Bus DCVS tuning
+      - {ResCode: "RES_BUS_DCVS_HYST_OPT",          Values: [33]}
+      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
+      # Scheduler / colocation tuning
+      - {ResCode: "RES_SCHED_COLOC_DEMAND_NS",       Values: [100]}
+      - {ResCode: "RES_SCHED_GROUP_UPMIGRATE",       Values: [0]}
+      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [0]}
+      - {ResCode: "RES_SCHED_DOWNMIGRATE",           Values: [99]}
+      - {ResCode: "RES_SCHED_UCLAMP_MIN",            Values: [50]}
+
+  # Perflock config 0x00001407 - GPU min freq = 0 (reset/disable GPU floor)
+  - SigId: "0x1407"
+    Category: "0xea"
+    SigType: 0
+    Name: "URM_SIG_PERFLOCK_WakeLock"
+    Enable: true
+    TargetsEnabled: ["seraph"]
+    Permissions: ["third_party", "system"]
+    Timeout: -1
+    Resources:
+      # GPU: min freq = 0 (reset GPU floor)
+      - {ResCode: "RES_GPU_MIN_FREQ",                Values: [0]}
