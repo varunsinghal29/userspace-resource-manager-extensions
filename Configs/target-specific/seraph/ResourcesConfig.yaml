@@ -232,10 +232,6 @@ ResourceConfigs:
     Policy: "instant_apply"
     ApplyType: "global"
 
-  # ---------------------------------------------------------------------------
-  # NILESH Work -- Legacy MPCTLV3 opcode mappings
-  # ---------------------------------------------------------------------------
-
   ## MPCTLV3_LLCC_DDR_BW_MIN_FREQ_V2 -- legacy mp-ctl opcode 0x4303C000
   # (Major 0xC / Minor 0xF)
   - ResType: "0x0c"
