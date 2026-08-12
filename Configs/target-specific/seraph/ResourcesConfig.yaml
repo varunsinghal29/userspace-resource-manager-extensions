@@ -166,7 +166,7 @@ ResourceConfigs:
     Permissions: "third_party"
     Modes: ["display_on", "doze"]
     Policy: "pass_through"
-    ApplyType: "global"
+    ApplyType: "cluster"
 
 #  ## MPCTLV3_MIN_FREQ_CLUSTER_LITTLE_CORE_0 -- legacy mp-ctl opcode 0x40800100
 #  ## MPCTLV3_MIN_FREQ_CLUSTER_BIG_CORE_0 -- legacy mp-ctl opcode 0x40800000
@@ -178,7 +178,7 @@ ResourceConfigs:
     Permissions: "third_party"
     Modes: ["display_on", "doze"]
     Policy: "pass_through"
-    ApplyType: "global"
+    ApplyType: "cluster"
 
   - ResType: "0x8a"
     ResID: "0x000f"
