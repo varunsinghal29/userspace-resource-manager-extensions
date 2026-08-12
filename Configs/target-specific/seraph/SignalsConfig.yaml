@@ -11,7 +11,6 @@ SignalConfigs:
     SigType: 0
     Name: "URM_SIG_VIDEO_DECODE"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
@@ -36,7 +35,6 @@ SignalConfigs:
     SigType: 5
     Name: "URM_SIG_VIDEO_DECODE"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
@@ -61,7 +59,6 @@ SignalConfigs:
     SigType: 20
     Name: "URM_SIG_VIDEO_DECODE"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
@@ -81,7 +78,6 @@ SignalConfigs:
     Category: "0x03"
     Name: "URM_SIG_CAMERA_PREVIEW"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
@@ -105,7 +101,6 @@ SignalConfigs:
     Category: "0x03"
     Name: "URM_SIG_CAMERA_ENCODE"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
@@ -130,7 +125,6 @@ SignalConfigs:
     SigType: 0
     Name: "URM_SIG_CAMERA_ENCODE_MULTI_STREAMS"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
@@ -155,7 +149,6 @@ SignalConfigs:
     SigType: 13
     Name: "URM_SIG_CAMERA_ENCODE_MULTI_STREAMS"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
@@ -186,7 +179,6 @@ SignalConfigs:
     SigType: 0
     Name: "URM_SIG_PERFLOCK_Preview"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
@@ -219,7 +211,6 @@ SignalConfigs:
     SigType: 0
     Name: "URM_SIG_PERFLOCK_VideoEncode"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
@@ -251,8 +242,8 @@ SignalConfigs:
   # L CPU - Disable schedutil PL
   # B CPU - Disable schedutil PL
   # B CPU - Set hispeed load 99
-  # UPMIGRATE - 35 85
-  # DOWNMIGRATE - 30 85
+  # UPMIGRATE - 35
+  # DOWNMIGRATE - 30
   # B CPU - Disable Core Control
   # AB_SCALE - 50
   - SigId: "0x1332"
@@ -260,11 +251,10 @@ SignalConfigs:
     SigType: 0
     Name: "URM_SIG_PERFLOCK_VideoEncode60FPS"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
-      - {ResCode: "0x008a000e", Values: [1, 960]}    # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=960MHz)
+      - {ResCode: "RES_SCALE_MIN_FREQ", ResInfo: "CLUSTER_BIG_ALL_CORES", Values: [996000]} # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=960MHz)
       - {ResCode: "0x0006000f", Values: [16]}         # 0x4183C000 MPCTLV3_CPU_LLCC_BW_SAMPLE_MS
       - {ResCode: "0x0006000d", Values: [100]}        # 0x41834000 MPCTLV3_CPU_LLCC_BW_IO_PERCENT
       - {ResCode: "0x0006000e", Values: [0]}          # 0x41838000 MPCTLV3_CPU_LLCC_BW_HYST_OPT
@@ -273,14 +263,13 @@ SignalConfigs:
       - {ResCode: "0x008a0005", Values: [100]}        # 0x43020000 MPCTLV3_LLCC_DDR_BW_IO_PERCENT
       - {ResCode: "0x000c0003", Values: [0]}          # 0x43024000 MPCTLV3_LLCC_DDR_BW_HYST_OPT
       - {ResCode: "0x000c000f", Values: [1555000]}    # 0x4303C000 RES_MPCTLV3_LLCC_DDR_BW_MIN_FREQ_V2
-      - {ResCode: "0x008a000d", Values: [0, 65535]}   # 0x40804000 RES_MSM_PERF_CPU_MAX_FREQ (cluster0=FMAX)
-      - {ResCode: "0x008a000e", Values: [0, 1497]}    # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=1497MHz)
-      - {ResCode: "0x00050012", Values: [1, 0]}       # 0x41444100 RES_SCHEDUTIL_PL_CLUSTER_LITTLE
-      - {ResCode: "0x00050011", Values: [0]}          # 0x41444000 RES_SCHEDUTIL_PL_CLUSTER_BIG
+      - {ResCode: "RES_SCALE_MAX_FREQ", ResInfo: "CLUSTER_LITTLE_ALL_CORES", Values: [1996800]} # 0x40804000 RES_MSM_PERF_CPU_MAX_FREQ (cluster0=FMAX)
+      - {ResCode: "RES_SCALE_MIN_FREQ", ResInfo: "CLUSTER_LITTLE_ALL_CORES", Values: [1479000]} # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=1497MHz)
+      - {ResCode: "0x00050011", Values: [0]}          # 0x41444100 RES_SCHEDUTIL_PL_CLUSTER_LITTL # 0x41444000 RES_SCHEDUTIL_PL_CLUSTER_BIG
       - {ResCode: "0x00050010", Values: [99]}         # 0x41440000 RES_SCHEDUTIL_HISPEED_LOAD_CLUSTER_BIG
-      - {ResCode: "0x00030038", Values: [2293790]}    # 0x40CE0000 RES_SCHED_UP_DOWN_MIGRATE (UPMIGRATE 35/30)
-      - {ResCode: "0x00030039", Values: [2, 5570645]} # 0x40CE0200 RES_SCHED_UP_DOWN_MIGRATE_CLUSTER (DOWNMIGRATE 85/85)
-      - {ResCode: "0x00040002", Values: [0, 0]}       # 0x41008000 RES_CORE_CTL_ENABLE_BIG
+      - {ResCode: "0x008a0010", Values: [30]}         # 0x40CE0200 RES_SCHED_DOWN_MIGRATE (DOWNMIGRATE 30) 
+      - {ResCode: "0x008a000f", Values: [35]}         # 0x40CE0000 RES_SCHED_UP_MIGRATE (UPMIGRATE 35)
+      - {ResCode: "0x008a0008", ResInfo: "0x00000000", Values: [0]}       # 0x41008000 RES_CPU_CORE_CTL cluster 0
       - {ResCode: "0x000c0012", Values: [50]}         # 0x43048000 RES_LLCC_DDR_BWMON_AB_SCALE_V2
 
   # Id: 0x00001333
@@ -297,15 +286,14 @@ SignalConfigs:
   # L CPU - Disable schedutil PL
   # B CPU - Disable schedutil PL
   # B CPU - Set hispeed load 99
-  # UPMIGRATE - 35 85
-  # DOWNMIGRATE - 30 85
+  # UPMIGRATE - 35
+  # DOWNMIGRATE - 30
   # B CPU - Disable Core Control
   - SigId: "0x1333"
     Category: "0xea"
     SigType: 0
     Name: "URM_SIG_PERFLOCK_VideoEncodeHFR"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
@@ -317,38 +305,28 @@ SignalConfigs:
       - {ResCode: "0x008a0005", Values: [100]}        # 0x43020000 MPCTLV3_LLCC_DDR_BW_IO_PERCENT
       - {ResCode: "0x000c0003", Values: [0]}          # 0x43024000 MPCTLV3_LLCC_DDR_BW_HYST_OPT
       - {ResCode: "0x000c000f", Values: [1555000]}    # 0x4303C000 RES_MPCTLV3_LLCC_DDR_BW_MIN_FREQ_V2
-      - {ResCode: "0x008a000d", Values: [1, 1094]}    # 0x40804100 RES_MSM_PERF_CPU_MAX_FREQ (L CPU cluster1=1094MHz)
-      - {ResCode: "0x00050012", Values: [1, 0]}       # 0x41444100 RES_SCHEDUTIL_PL_CLUSTER_LITTLE
-      - {ResCode: "0x00050011", Values: [0]}          # 0x41444000 RES_SCHEDUTIL_PL_CLUSTER_BIG
+      - {ResCode: "RES_SCALE_MAX_FREQ", ResInfo: "CLUSTER_BIG_ALL_CORES", Values: [1094000]} # 0x40804100 RES_MSM_PERF_CPU_MAX_FREQ (L CPU cluster1=1094MHz)
+      - {ResCode: "0x00050011", Values: [0]}          # 0x41444100 RES_SCHEDUTIL_PL_CLUSTER_LITTLE # 0x41444000 RES_SCHEDUTIL_PL_CLUSTER_BIG
       - {ResCode: "0x00050010", Values: [99]}         # 0x41440000 RES_SCHEDUTIL_HISPEED_LOAD_CLUSTER_BIG
-      - {ResCode: "0x00030038", Values: [2293790]}    # 0x40CE0000 RES_SCHED_UP_DOWN_MIGRATE (UPMIGRATE 35/30)
-      - {ResCode: "0x00030039", Values: [2, 5570645]} # 0x40CE0200 RES_SCHED_UP_DOWN_MIGRATE_CLUSTER (DOWNMIGRATE 85/85)
-      - {ResCode: "0x00040002", Values: [0, 0]}       # 0x41008000 RES_CORE_CTL_ENABLE_BIG
+      - {ResCode: "0x008a0010", Values: [30]}         # 0x40CE0200 RES_SCHED_DOWN_MIGRATE (DOWNMIGRATE 30) 
+      - {ResCode: "0x008a000f", Values: [35]}         # 0x40CE0000 RES_SCHED_UP_MIGRATE (UPMIGRATE 35)
+      - {ResCode: "0x008a0008", ResInfo: "0x00000000", Values: [0]}       # 0x41008000 RES_CPU_CORE_CTL cluster
 
   # Id: 0x00001334
   # video encode HFR 480fps
-  # MPCTLV3_ALL_CPUS_PWR_CLPS_DIS, 0x1
-  # MPCTLV3_SCHED_BOOST, 0x1
-  # MPCTLV3_MAX_FREQ_CLUSTER_BIG_CORE_0, 0xFFF
-  # MPCTLV3_MIN_FREQ_CLUSTER_BIG_CORE_0, 0xFFF
-  # MPCTLV3_MAX_FREQ_CLUSTER_LITTLE_CORE_0, 0xFFF
-  # MPCTLV3_MIN_FREQ_CLUSTER_LITTLE_CORE_0, 0xFFF
-  # MPCTLV3_MIN_FREQ_CLUSTER_PLUS_CORE_0, 0xFFF
-  # MPCTLV3_MAX_FREQ_CLUSTER_PLUS_CORE_0, 0xFFF
   - SigId: "0x1334"
     Category: "0xea"
     SigType: 0
     Name: "URM_SIG_PERFLOCK_VideoEncodeHFR480FPS"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
       - {ResCode: "0x00010000", Values: [1]}          # 0x40400000 RES_PM_QOS_CPU_DMA_LATENCY (ALL_CPUS_PWR_CLPS_DIS)
-      - {ResCode: "0x008a000e", Values: [1, 1036]}    # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=1036MHz)
-      - {ResCode: "0x008a000e", Values: [0, 1228]}    # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=1228MHz)
-      - {ResCode: "0x00030008", Values: [20]}         # 0x40C20000 RES_SCHED_DOWNMIGRATE
-      - {ResCode: "0x00030007", Values: [30]}         # 0x40C1C000 RES_SCHED_UPMIGRATE
+      - {ResCode: "RES_SCALE_MIN_FREQ", ResInfo: "CLUSTER_BIG_ALL_CORES", Values: [1036000]} # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=1036MHz)
+      - {ResCode: "RES_SCALE_MIN_FREQ", ResInfo: "CLUSTER_LITTLE_ALL_CORES", Values: [1228000]} # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=1228MHz)
+      - {ResCode: "0x008a0010", Values: [20]}         # 0x40CE0200 RES_SCHED_DOWN_MIGRATE (DOWNMIGRATE 20) 
+      - {ResCode: "0x008a000f", Values: [30]}         # 0x40CE0000 RES_SCHED_UP_MIGRATE (UPMIGRATE 30)
       - {ResCode: "0x00060008", Values: [10]}         # 0x41820000 RES_CPUBW_HWMON_SAMPLE_MS
       - {ResCode: "0x00060002", Values: [80]}         # 0x41808000 RES_CPUBW_HWMON_IO_PCT
       - {ResCode: "0x00060003", Values: [0]}          # 0x4180C000 RES_CPUBW_HWMON_HYST_OPT
@@ -367,16 +345,15 @@ SignalConfigs:
     SigType: 0
     Name: "URM_SIG_PERFLOCK_OpenCamera"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
       - {ResCode: "0x00010000", Values: [1]}          # 0x40400000 RES_PM_QOS_CPU_DMA_LATENCY (ALL_CPUS_PWR_CLPS_DIS)
       - {ResCode: "0x00030000", Values: [1]}          # 0x40C00000 RES_SCHED_BOOST_V2 (SCHED_BOOST)
-      - {ResCode: "0x008a000d", Values: [0, 2035]}    # 0x40804000 RES_MSM_PERF_CPU_MAX_FREQ (cluster0=2035MHz)
-      - {ResCode: "0x008a000e", Values: [0, 2035]}    # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=2035MHz)
-      - {ResCode: "0x008a000d", Values: [1, 1997]}    # 0x40804100 RES_MSM_PERF_CPU_MAX_FREQ (cluster1=1997MHz)
-      - {ResCode: "0x008a000e", Values: [1, 1997]}    # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=1997MHz)
+      - {ResCode: "RES_SCALE_MAX_FREQ", ResInfo: "CLUSTER_LITTLE_ALL_CORES", Values: [2035000]}  # 0x40804000 RES_MSM_PERF_CPU_MAX_FREQ (cluster0=2035MHz)
+      - {ResCode: "RES_SCALE_MIN_FREQ", ResInfo: "CLUSTER_LITTLE_ALL_CORES", Values: [2035000]}  # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=2035MHz)
+      - {ResCode: "RES_SCALE_MAX_FREQ", ResInfo: "CLUSTER_BIG_ALL_CORES", Values: [1997000]}  # 0x40804100 RES_MSM_PERF_CPU_MAX_FREQ (cluster1=1997MHz)
+      - {ResCode: "RES_SCALE_MIN_FREQ", ResInfo: "CLUSTER_BIG_ALL_CORES", Values: [1997000]}  # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=1997MHz)
       - {ResCode: "0x000c000f", Values: [1555000]}    # 0x4303C000 RES_MPCTLV3_LLCC_DDR_BW_MIN_FREQ_V2
 
   # Id: 0x00001338
@@ -393,16 +370,15 @@ SignalConfigs:
     SigType: 0
     Name: "URM_SIG_PERFLOCK_CloseCamera"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
       - {ResCode: "0x00010000", Values: [1]}          # 0x40400000 RES_PM_QOS_CPU_DMA_LATENCY (ALL_CPUS_PWR_CLPS_DIS)
       - {ResCode: "0x00030000", Values: [1]}          # 0x40C00000 RES_SCHED_BOOST_V2 (SCHED_BOOST)
-      - {ResCode: "0x008a000d", Values: [0, 2035]}    # 0x40804000 RES_MSM_PERF_CPU_MAX_FREQ (cluster0=2035MHz)
-      - {ResCode: "0x008a000e", Values: [0, 2035]}    # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=2035MHz)
-      - {ResCode: "0x008a000d", Values: [1, 1997]}    # 0x40804100 RES_MSM_PERF_CPU_MAX_FREQ (cluster1=1997MHz)
-      - {ResCode: "0x008a000e", Values: [1, 1997]}    # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=1997MHz)
+      - {ResCode: "RES_SCALE_MAX_FREQ", ResInfo: "CLUSTER_LITTLE_ALL_CORES", Values: [2035000]}  # 0x40804000 RES_MSM_PERF_CPU_MAX_FREQ (cluster0=2035MHz)
+      - {ResCode: "RES_SCALE_MAX_FREQ", ResInfo: "CLUSTER_LITTLE_ALL_CORES", Values: [2035000]}  # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=2035MHz)
+      - {ResCode: "RES_SCALE_MIN_FREQ", ResInfo: "CLUSTER_BIG_ALL_CORES", Values: [1997000]}     # 0x40804100 RES_MSM_PERF_CPU_MAX_FREQ (cluster1=1997MHz)
+      - {ResCode: "RES_SCALE_MIN_FREQ", ResInfo: "CLUSTER_BIG_ALL_CORES", Values: [1997000]}     # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=1997MHz)
       - {ResCode: "0x000c000f", Values: [1555000]}    # 0x4303C000 RES_MPCTLV3_LLCC_DDR_BW_MIN_FREQ_V2
 
   # Id: 0x00001339
@@ -414,12 +390,11 @@ SignalConfigs:
     SigType: 0
     Name: "URM_SIG_PERFLOCK_SnapshotCapture"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
       - {ResCode: "0x00010000", Values: [1]}          # 0x40400000 RES_PM_QOS_CPU_DMA_LATENCY (ALL_CPUS_PWR_CLPS_DIS)
-      - {ResCode: "0x008a000e", Values: [0, 1113]}    # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=1113MHz)
+      - {ResCode: "RES_SCALE_MIN_FREQ", ResInfo: "CLUSTER_LITTLE_ALL_CORES", Values: [1113000]}  # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=1113MHz)
 
   # Id: 0x00001406
   # 3k30 - 3k camera 30fps
@@ -439,7 +414,6 @@ SignalConfigs:
     SigType: 0
     Name: "URM_SIG_PERFLOCK_VideoEncode3k"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
@@ -463,7 +437,6 @@ SignalConfigs:
     SigType: 0
     Name: "URM_SIG_PERFLOCK_WakeLock"
     Enable: true
-    TargetsEnabled: ["seraph"]
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
