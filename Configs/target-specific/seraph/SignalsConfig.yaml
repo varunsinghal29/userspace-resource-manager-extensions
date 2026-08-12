@@ -169,8 +169,18 @@ SignalConfigs:
       - {ResCode: "RES_CGRP_LOW_MEM", Values: [4, 507256]}
       - {ResCode: "RES_CGRP_MIN_MEM", Values: [4, 116631]}
 
-  # Perflock config 0x00001330 - Sustained BW + Sched tuning (no Bus DCVS max freq)
-  # DDR min 933MHz, CPUBW HWMON tuning, sched migration tuning
+  # Id: 0x00001330
+  # camera ZSLPreview
+  # CPU-LLC BWMON - Set sample_ms 33
+  # CPU-LLC BWMON - Set io_percent 100
+  # CPU-LLC BWMON - Set hyst_length hist memory 0
+  # CPU-LLC BWMON - Set max freq 933mhz
+  # CPU-LLC-DDR BWMON - Set sample_ms 33
+  # CPU-LLC-DDR BWMON - Set io_percent 100
+  # CPU-LLC-DDR BWMON - Set hyst_length hist memory 0
+  # CPU - Disable schedutil PL
+  # CPU - Set hispeed load 99
+  # AB_SCALE - 50
   - SigId: "0x1330"
     Category: "0xea"
     SigType: 0
@@ -180,22 +190,30 @@ SignalConfigs:
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
-      # CPUBW HWMON tuning
-      - {ResCode: "RES_CPUBW_HWMON_MAXFREQ",        Values: [33]}
-      - {ResCode: "RES_CPUBW_HWMON_HYST_LENGTH",     Values: [100]}
-      - {ResCode: "RES_CPUBW_HWMON_NTOKENS",         Values: [0]}
-      - {ResCode: "RES_CPUBW_HWMON_DDR_MINFREQ",     Values: [933000]}
-      # Bus DCVS tuning
-      - {ResCode: "RES_BUS_DCVS_HYST_OPT",          Values: [33]}
-      # Scheduler / colocation tuning
-      - {ResCode: "RES_SCHED_COLOC_DEMAND_NS",       Values: [100]}
-      - {ResCode: "RES_SCHED_GROUP_UPMIGRATE",       Values: [0]}
-      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [0]}
-      - {ResCode: "RES_SCHED_DOWNMIGRATE",           Values: [99]}
-      - {ResCode: "RES_SCHED_UCLAMP_MIN",            Values: [50]}
+      - {ResCode: "0x0006000f", Values: [33]}      # 0x4183C000 MPCTLV3_CPU_LLCC_BW_SAMPLE_MS
+      - {ResCode: "0x0006000d", Values: [100]}     # 0x41834000 MPCTLV3_CPU_LLCC_BW_IO_PERCENT
+      - {ResCode: "0x0006000e", Values: [0]}       # 0x41838000 MPCTLV3_CPU_LLCC_BW_HYST_OPT
+      - {ResCode: "0x00060012", Values: [933000]}  # 0x41848000 MPCTLV3_CPU_LLCC_BW_MAX_FREQ_V2
+      - {ResCode: "0x000c000d", Values: [33]}      # 0x43034000 MPCTLV3_LLCC_DDR_BW_SAMPLE_MS
+      - {ResCode: "0x008a0005", Values: [100]}     # 0x43020000 MPCTLV3_LLCC_DDR_BW_IO_PERCENT
+      - {ResCode: "0x000c0003", Values: [0]}       # 0x43024000 MPCTLV3_LLCC_DDR_BW_HYST_OPT
+      - {ResCode: "0x00050011", Values: [0]}       # 0x41444000 RES_SCHEDUTIL_PL_CLUSTER_BIG
+      - {ResCode: "0x00050010", Values: [99]}      # 0x41440000 RES_SCHEDUTIL_HISPEED_LOAD_CLUSTER_BIG
+      - {ResCode: "0x000c0012", Values: [50]}      # 0x43048000 RES_LLCC_DDR_BWMON_AB_SCALE_V2
 
-  # Perflock config 0x00001331 - Sustained BW + Sched tuning (with Bus DCVS max freq)
-  # DDR min 933MHz, Bus DCVS max 1555MHz, CPUBW HWMON tuning, sched migration tuning
+  # Id: 0x00001331
+  # camera 30fps
+  # CPU-LLC BWMON - Set sample_ms 33
+  # CPU-LLC BWMON - Set io_percent 100
+  # CPU-LLC BWMON - Set hyst_length hist memory 0
+  # CPU-LLC BWMON - Set max freq 933mhz
+  # CPU-LLC-DDR BWMON - Set sample_ms 33
+  # CPU-LLC-DDR BWMON - Set io_percent 100
+  # CPU-LLC-DDR BWMON - Set hyst_length hist memory 0
+  # CPU-LLC-DDR BWMON - Set min_freq 1555
+  # CPU - Disable schedutil PL
+  # CPU - Set hispeed load 99
+  # AB_SCALE - 50
   - SigId: "0x1331"
     Category: "0xea"
     SigType: 0
@@ -205,24 +223,38 @@ SignalConfigs:
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
-      # CPUBW HWMON tuning
-      - {ResCode: "RES_CPUBW_HWMON_MAXFREQ",        Values: [33]}
-      - {ResCode: "RES_CPUBW_HWMON_HYST_LENGTH",     Values: [100]}
-      - {ResCode: "RES_CPUBW_HWMON_NTOKENS",         Values: [0]}
-      - {ResCode: "RES_CPUBW_HWMON_DDR_MINFREQ",     Values: [933000]}
-      # Bus DCVS tuning
-      - {ResCode: "RES_BUS_DCVS_HYST_OPT",          Values: [33]}
-      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
-      # Scheduler / colocation tuning
-      - {ResCode: "RES_SCHED_COLOC_DEMAND_NS",       Values: [100]}
-      - {ResCode: "RES_SCHED_GROUP_UPMIGRATE",       Values: [0]}
-      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [0]}
-      - {ResCode: "RES_SCHED_DOWNMIGRATE",           Values: [99]}
-      - {ResCode: "RES_SCHED_UCLAMP_MIN",            Values: [50]}
+      - {ResCode: "0x0006000f", Values: [33]}      # 0x4183C000 MPCTLV3_CPU_LLCC_BW_SAMPLE_MS
+      - {ResCode: "0x0006000d", Values: [100]}     # 0x41834000 MPCTLV3_CPU_LLCC_BW_IO_PERCENT
+      - {ResCode: "0x0006000e", Values: [0]}       # 0x41838000 MPCTLV3_CPU_LLCC_BW_HYST_OPT
+      - {ResCode: "0x00060012", Values: [933000]}  # 0x41848000 MPCTLV3_CPU_LLCC_BW_MAX_FREQ_V2
+      - {ResCode: "0x000c000d", Values: [33]}      # 0x43034000 MPCTLV3_LLCC_DDR_BW_SAMPLE_MS
+      - {ResCode: "0x008a0005", Values: [100]}     # 0x43020000 MPCTLV3_LLCC_DDR_BW_IO_PERCENT
+      - {ResCode: "0x000c0003", Values: [0]}       # 0x43024000 MPCTLV3_LLCC_DDR_BW_HYST_OPT
+      - {ResCode: "0x000c000f", Values: [1555000]} # 0x4303C000 RES_MPCTLV3_LLCC_DDR_BW_MIN_FREQ_V2
+      - {ResCode: "0x00050011", Values: [0]}       # 0x41444000 RES_SCHEDUTIL_PL_CLUSTER_BIG
+      - {ResCode: "0x00050010", Values: [99]}      # 0x41440000 RES_SCHEDUTIL_HISPEED_LOAD_CLUSTER_BIG
+      - {ResCode: "0x000c0012", Values: [50]}      # 0x43048000 RES_LLCC_DDR_BWMON_AB_SCALE_V2
 
-  # Perflock config 0x00001332 - CPU freq boost + BW + Sched + INTERACTIVE tuning
-  # CPU cluster0 min 1497MHz, cluster1 min 960MHz, CPU max locked to 65535
-  # DDR min 933MHz, Bus DCVS max 1555MHz, sched upmigrate tuning, INTERACTIVE hispeed/go_hispeed
+  # Id: 0x00001332
+  # camera 60fps
+  # CPU MIN FREQ LITTLE CORE 0 - 960MHZ
+  # CPU-LLC BWMON - Set sample_ms 16
+  # CPU-LLC BWMON - Set io_percent 100
+  # CPU-LLC BWMON - Set hyst_length hist memory 0
+  # CPU-LLC BWMON - Set max freq 933mhz
+  # CPU-LLC-DDR BWMON - Set sample_ms 16
+  # CPU-LLC-DDR BWMON - Set io_percent 100
+  # CPU-LLC-DDR BWMON - Set hyst_length hist memory 0
+  # CPU-LLC-DDR BWMON - Set min_freq 1555
+  # MPCTLV3_MAX_FREQ_CLUSTER_LITTLE_CORE_0 FMAX
+  # MPCTLV3_MIN_FREQ_CLUSTER_LITTLE_CORE_0 1497600
+  # L CPU - Disable schedutil PL
+  # B CPU - Disable schedutil PL
+  # B CPU - Set hispeed load 99
+  # UPMIGRATE - 35 85
+  # DOWNMIGRATE - 30 85
+  # B CPU - Disable Core Control
+  # AB_SCALE - 50
   - SigId: "0x1332"
     Category: "0xea"
     SigType: 0
@@ -232,33 +264,42 @@ SignalConfigs:
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
-      # CPU freq: cluster1 min freq = 960 MHz
-      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [1, 960]}
-      # CPUBW HWMON tuning
-      - {ResCode: "RES_CPUBW_HWMON_MAXFREQ",        Values: [16]}
-      - {ResCode: "RES_CPUBW_HWMON_HYST_LENGTH",     Values: [100]}
-      - {ResCode: "RES_CPUBW_HWMON_NTOKENS",         Values: [0]}
-      - {ResCode: "RES_CPUBW_HWMON_DDR_MINFREQ",     Values: [933000]}
-      # Bus DCVS tuning
-      - {ResCode: "RES_BUS_DCVS_HYST_OPT",          Values: [16]}
-      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
-      # CPU freq: cluster0 max freq = 65535 (unlock), min freq = 1497 MHz
-      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [0, 65535]}
-      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [0, 1497]}
-      # Scheduler / colocation tuning
-      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [1, 0]}
-      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [0, 0]}
-      - {ResCode: "RES_SCHED_DOWNMIGRATE",           Values: [99]}
-      # INTERACTIVE: hispeed_freq cluster0 = 0x23001E, cluster2 = 0x550055
-      - {ResCode: "RES_INTERACTIVE_HISPEED_FREQ",    Values: [0, 2293790]}
-      - {ResCode: "RES_INTERACTIVE_HISPEED_FREQ",    Values: [2, 5570645]}
-      # Memory: LLCC power collapse = 0
-      - {ResCode: "RES_MEMORY_LLCC_POWER_COLLAPSE",  Values: [0]}
-      # Scheduler group uclamp min
-      - {ResCode: "RES_SCHED_UCLAMP_MIN",            Values: [50]}
+      - {ResCode: "0x008a000e", Values: [1, 960]}    # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=960MHz)
+      - {ResCode: "0x0006000f", Values: [16]}         # 0x4183C000 MPCTLV3_CPU_LLCC_BW_SAMPLE_MS
+      - {ResCode: "0x0006000d", Values: [100]}        # 0x41834000 MPCTLV3_CPU_LLCC_BW_IO_PERCENT
+      - {ResCode: "0x0006000e", Values: [0]}          # 0x41838000 MPCTLV3_CPU_LLCC_BW_HYST_OPT
+      - {ResCode: "0x00060012", Values: [933000]}     # 0x41848000 MPCTLV3_CPU_LLCC_BW_MAX_FREQ_V2
+      - {ResCode: "0x000c000d", Values: [16]}         # 0x43034000 MPCTLV3_LLCC_DDR_BW_SAMPLE_MS
+      - {ResCode: "0x008a0005", Values: [100]}        # 0x43020000 MPCTLV3_LLCC_DDR_BW_IO_PERCENT
+      - {ResCode: "0x000c0003", Values: [0]}          # 0x43024000 MPCTLV3_LLCC_DDR_BW_HYST_OPT
+      - {ResCode: "0x000c000f", Values: [1555000]}    # 0x4303C000 RES_MPCTLV3_LLCC_DDR_BW_MIN_FREQ_V2
+      - {ResCode: "0x008a000d", Values: [0, 65535]}   # 0x40804000 RES_MSM_PERF_CPU_MAX_FREQ (cluster0=FMAX)
+      - {ResCode: "0x008a000e", Values: [0, 1497]}    # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=1497MHz)
+      - {ResCode: "0x00050012", Values: [1, 0]}       # 0x41444100 RES_SCHEDUTIL_PL_CLUSTER_LITTLE
+      - {ResCode: "0x00050011", Values: [0]}          # 0x41444000 RES_SCHEDUTIL_PL_CLUSTER_BIG
+      - {ResCode: "0x00050010", Values: [99]}         # 0x41440000 RES_SCHEDUTIL_HISPEED_LOAD_CLUSTER_BIG
+      - {ResCode: "0x00030038", Values: [2293790]}    # 0x40CE0000 RES_SCHED_UP_DOWN_MIGRATE (UPMIGRATE 35/30)
+      - {ResCode: "0x00030039", Values: [2, 5570645]} # 0x40CE0200 RES_SCHED_UP_DOWN_MIGRATE_CLUSTER (DOWNMIGRATE 85/85)
+      - {ResCode: "0x00040002", Values: [0, 0]}       # 0x41008000 RES_CORE_CTL_ENABLE_BIG
+      - {ResCode: "0x000c0012", Values: [50]}         # 0x43048000 RES_LLCC_DDR_BWMON_AB_SCALE_V2
 
-  # Perflock config 0x00001333 - CPU freq boost (cluster1) + BW + Sched + INTERACTIVE
-  # CPU cluster1 max 1094 MHz, DDR min 933MHz, Bus DCVS max 1555MHz, sched + INTERACTIVE tuning
+  # Id: 0x00001333
+  # camera HFR
+  # CPU-LLC BWMON - Set sample_ms 16
+  # CPU-LLC BWMON - Set io_percent 100
+  # CPU-LLC BWMON - Set hyst_length hist memory 0
+  # CPU-LLC BWMON - Set max freq 933mhz
+  # CPU-LLC-DDR BWMON - Set sample_ms 16
+  # CPU-LLC-DDR BWMON - Set io_percent 100
+  # CPU-LLC-DDR BWMON - Set hyst_length hist memory 0
+  # CPU-LLC-DDR BWMON - Set min_freq 1555
+  # L CPU max freq 1094000
+  # L CPU - Disable schedutil PL
+  # B CPU - Disable schedutil PL
+  # B CPU - Set hispeed load 99
+  # UPMIGRATE - 35 85
+  # DOWNMIGRATE - 30 85
+  # B CPU - Disable Core Control
   - SigId: "0x1333"
     Category: "0xea"
     SigType: 0
@@ -268,28 +309,32 @@ SignalConfigs:
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
-      # CPUBW HWMON tuning
-      - {ResCode: "RES_CPUBW_HWMON_MAXFREQ",        Values: [16]}
-      - {ResCode: "RES_CPUBW_HWMON_HYST_LENGTH",     Values: [100]}
-      - {ResCode: "RES_CPUBW_HWMON_NTOKENS",         Values: [0]}
-      - {ResCode: "RES_CPUBW_HWMON_DDR_MINFREQ",     Values: [933000]}
-      # Bus DCVS tuning
-      - {ResCode: "RES_BUS_DCVS_HYST_OPT",          Values: [16]}
-      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
-      # CPU freq: cluster1 max freq = 1094 MHz
-      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [1, 1094]}
-      # Scheduler / colocation tuning
-      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [1, 0]}
-      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [0, 0]}
-      - {ResCode: "RES_SCHED_DOWNMIGRATE",           Values: [99]}
-      # INTERACTIVE: hispeed_freq cluster0 = 0x23001E, cluster2 = 0x550055
-      - {ResCode: "RES_INTERACTIVE_HISPEED_FREQ",    Values: [0, 2293790]}
-      - {ResCode: "RES_INTERACTIVE_HISPEED_FREQ",    Values: [2, 5570645]}
-      # Memory: LLCC power collapse = 0
-      - {ResCode: "RES_MEMORY_LLCC_POWER_COLLAPSE",  Values: [0]}
+      - {ResCode: "0x0006000f", Values: [16]}         # 0x4183C000 MPCTLV3_CPU_LLCC_BW_SAMPLE_MS
+      - {ResCode: "0x0006000d", Values: [100]}        # 0x41834000 MPCTLV3_CPU_LLCC_BW_IO_PERCENT
+      - {ResCode: "0x0006000e", Values: [0]}          # 0x41838000 MPCTLV3_CPU_LLCC_BW_HYST_OPT
+      - {ResCode: "0x00060012", Values: [933000]}     # 0x41848000 MPCTLV3_CPU_LLCC_BW_MAX_FREQ_V2
+      - {ResCode: "0x000c000d", Values: [16]}         # 0x43034000 MPCTLV3_LLCC_DDR_BW_SAMPLE_MS
+      - {ResCode: "0x008a0005", Values: [100]}        # 0x43020000 MPCTLV3_LLCC_DDR_BW_IO_PERCENT
+      - {ResCode: "0x000c0003", Values: [0]}          # 0x43024000 MPCTLV3_LLCC_DDR_BW_HYST_OPT
+      - {ResCode: "0x000c000f", Values: [1555000]}    # 0x4303C000 RES_MPCTLV3_LLCC_DDR_BW_MIN_FREQ_V2
+      - {ResCode: "0x008a000d", Values: [1, 1094]}    # 0x40804100 RES_MSM_PERF_CPU_MAX_FREQ (L CPU cluster1=1094MHz)
+      - {ResCode: "0x00050012", Values: [1, 0]}       # 0x41444100 RES_SCHEDUTIL_PL_CLUSTER_LITTLE
+      - {ResCode: "0x00050011", Values: [0]}          # 0x41444000 RES_SCHEDUTIL_PL_CLUSTER_BIG
+      - {ResCode: "0x00050010", Values: [99]}         # 0x41440000 RES_SCHEDUTIL_HISPEED_LOAD_CLUSTER_BIG
+      - {ResCode: "0x00030038", Values: [2293790]}    # 0x40CE0000 RES_SCHED_UP_DOWN_MIGRATE (UPMIGRATE 35/30)
+      - {ResCode: "0x00030039", Values: [2, 5570645]} # 0x40CE0200 RES_SCHED_UP_DOWN_MIGRATE_CLUSTER (DOWNMIGRATE 85/85)
+      - {ResCode: "0x00040002", Values: [0, 0]}       # 0x41008000 RES_CORE_CTL_ENABLE_BIG
 
-  # Perflock config 0x00001334 - Display on + CPU min freq + CPUBW HWMON light tuning
-  # Display wake=1, cluster0 min 1228MHz, cluster1 min 1036MHz, CPUBW HWMON sampling/io_percent
+  # Id: 0x00001334
+  # video encode HFR 480fps
+  # MPCTLV3_ALL_CPUS_PWR_CLPS_DIS, 0x1
+  # MPCTLV3_SCHED_BOOST, 0x1
+  # MPCTLV3_MAX_FREQ_CLUSTER_BIG_CORE_0, 0xFFF
+  # MPCTLV3_MIN_FREQ_CLUSTER_BIG_CORE_0, 0xFFF
+  # MPCTLV3_MAX_FREQ_CLUSTER_LITTLE_CORE_0, 0xFFF
+  # MPCTLV3_MIN_FREQ_CLUSTER_LITTLE_CORE_0, 0xFFF
+  # MPCTLV3_MIN_FREQ_CLUSTER_PLUS_CORE_0, 0xFFF
+  # MPCTLV3_MAX_FREQ_CLUSTER_PLUS_CORE_0, 0xFFF
   - SigId: "0x1334"
     Category: "0xea"
     SigType: 0
@@ -299,21 +344,24 @@ SignalConfigs:
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
-      # Display: keep display on
-      - {ResCode: "RES_DISPLAY_KEEP_ON",             Values: [1]}
-      # CPU freq: cluster1 min = 1036 MHz, cluster0 min = 1228 MHz
-      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [1, 1036]}
-      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [0, 1228]}
-      # INTERACTIVE: go_hispeed_load = 20, hispeed_load = 30
-      - {ResCode: "RES_INTERACTIVE_GO_HISPEED_LOAD", Values: [20]}
-      - {ResCode: "RES_INTERACTIVE_HISPEED_LOAD",    Values: [30]}
-      # CPUBW HWMON tuning
-      - {ResCode: "RES_CPUBW_HWMON_SAMPLE_MS",       Values: [10]}
-      - {ResCode: "RES_CPUBW_HWMON_IO_PERCENT",      Values: [80]}
-      - {ResCode: "RES_CPUBW_HWMON_LOW_POWER_CEIL_MBPS", Values: [0]}
+      - {ResCode: "0x00010000", Values: [1]}          # 0x40400000 RES_PM_QOS_CPU_DMA_LATENCY (ALL_CPUS_PWR_CLPS_DIS)
+      - {ResCode: "0x008a000e", Values: [1, 1036]}    # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=1036MHz)
+      - {ResCode: "0x008a000e", Values: [0, 1228]}    # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=1228MHz)
+      - {ResCode: "0x00030008", Values: [20]}         # 0x40C20000 RES_SCHED_DOWNMIGRATE
+      - {ResCode: "0x00030007", Values: [30]}         # 0x40C1C000 RES_SCHED_UPMIGRATE
+      - {ResCode: "0x00060008", Values: [10]}         # 0x41820000 RES_CPUBW_HWMON_SAMPLE_MS
+      - {ResCode: "0x00060002", Values: [80]}         # 0x41808000 RES_CPUBW_HWMON_IO_PCT
+      - {ResCode: "0x00060003", Values: [0]}          # 0x4180C000 RES_CPUBW_HWMON_HYST_OPT
 
-  # Perflock config 0x00001337 - Display on + CPU max freq lock + Bus DCVS max
-  # Display wake=1, perf enable=1, cluster0 max/min 2035MHz, cluster1 max/min 1997MHz, Bus DCVS max 1555MHz
+  # Id: 0x00001337
+  # camera open tunings
+  # MPCTLV3_ALL_CPUS_PWR_CLPS_DIS, 0x1
+  # MPCTLV3_SCHED_BOOST, 0x1
+  # MPCTLV3_MAX_FREQ_CLUSTER_BIG_CORE_0, 2.035 Ghz
+  # MPCTLV3_MIN_FREQ_CLUSTER_BIG_CORE_0, 2.035 Ghz
+  # MPCTLV3_MAX_FREQ_CLUSTER_LITTLE_CORE_0, 1.997 Ghz
+  # MPCTLV3_MIN_FREQ_CLUSTER_LITTLE_CORE_0, 1.997 Ghz
+  # CPU-LLC-DDR BWMON - Set min_freq 1555
   - SigId: "0x1337"
     Category: "0xea"
     SigType: 0
@@ -323,21 +371,23 @@ SignalConfigs:
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
-      # Display: keep display on
-      - {ResCode: "RES_DISPLAY_KEEP_ON",             Values: [1]}
-      # INTERACTIVE: perf mode enable
-      - {ResCode: "RES_INTERACTIVE_PERF_ENABLE",     Values: [1]}
-      # CPU freq: cluster0 max = 2035 MHz, min = 2035 MHz
-      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [0, 2035]}
-      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [0, 2035]}
-      # CPU freq: cluster1 max = 1997 MHz, min = 1997 MHz
-      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [1, 1997]}
-      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [1, 1997]}
-      # Bus DCVS: max freq = 1555 MHz
-      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
+      - {ResCode: "0x00010000", Values: [1]}          # 0x40400000 RES_PM_QOS_CPU_DMA_LATENCY (ALL_CPUS_PWR_CLPS_DIS)
+      - {ResCode: "0x00030000", Values: [1]}          # 0x40C00000 RES_SCHED_BOOST_V2 (SCHED_BOOST)
+      - {ResCode: "0x008a000d", Values: [0, 2035]}    # 0x40804000 RES_MSM_PERF_CPU_MAX_FREQ (cluster0=2035MHz)
+      - {ResCode: "0x008a000e", Values: [0, 2035]}    # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=2035MHz)
+      - {ResCode: "0x008a000d", Values: [1, 1997]}    # 0x40804100 RES_MSM_PERF_CPU_MAX_FREQ (cluster1=1997MHz)
+      - {ResCode: "0x008a000e", Values: [1, 1997]}    # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=1997MHz)
+      - {ResCode: "0x000c000f", Values: [1555000]}    # 0x4303C000 RES_MPCTLV3_LLCC_DDR_BW_MIN_FREQ_V2
 
-  # Perflock config 0x00001338 - identical to 0x00001337
-  # Display on + CPU max freq lock + Bus DCVS max
+  # Id: 0x00001338
+  # camera close tunings
+  # MPCTLV3_ALL_CPUS_PWR_CLPS_DIS, 0x1
+  # MPCTLV3_SCHED_BOOST, 0x1
+  # MPCTLV3_MAX_FREQ_CLUSTER_BIG_CORE_0, 2.035 Ghz
+  # MPCTLV3_MIN_FREQ_CLUSTER_BIG_CORE_0, 2.035 Ghz
+  # MPCTLV3_MAX_FREQ_CLUSTER_LITTLE_CORE_0, 1.997 Ghz
+  # MPCTLV3_MIN_FREQ_CLUSTER_LITTLE_CORE_0, 1.997 Ghz
+  # CPU-LLC-DDR BWMON - Set min_freq 1555
   - SigId: "0x1338"
     Category: "0xea"
     SigType: 0
@@ -347,20 +397,18 @@ SignalConfigs:
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
-      # Display: keep display on
-      - {ResCode: "RES_DISPLAY_KEEP_ON",             Values: [1]}
-      # INTERACTIVE: perf mode enable
-      - {ResCode: "RES_INTERACTIVE_PERF_ENABLE",     Values: [1]}
-      # CPU freq: cluster0 max = 2035 MHz, min = 2035 MHz
-      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [0, 2035]}
-      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [0, 2035]}
-      # CPU freq: cluster1 max = 1997 MHz, min = 1997 MHz
-      - {ResCode: "RES_CPUFREQ_MAX_FREQ",            Values: [1, 1997]}
-      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [1, 1997]}
-      # Bus DCVS: max freq = 1555 MHz
-      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
+      - {ResCode: "0x00010000", Values: [1]}          # 0x40400000 RES_PM_QOS_CPU_DMA_LATENCY (ALL_CPUS_PWR_CLPS_DIS)
+      - {ResCode: "0x00030000", Values: [1]}          # 0x40C00000 RES_SCHED_BOOST_V2 (SCHED_BOOST)
+      - {ResCode: "0x008a000d", Values: [0, 2035]}    # 0x40804000 RES_MSM_PERF_CPU_MAX_FREQ (cluster0=2035MHz)
+      - {ResCode: "0x008a000e", Values: [0, 2035]}    # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=2035MHz)
+      - {ResCode: "0x008a000d", Values: [1, 1997]}    # 0x40804100 RES_MSM_PERF_CPU_MAX_FREQ (cluster1=1997MHz)
+      - {ResCode: "0x008a000e", Values: [1, 1997]}    # 0x40800100 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=1997MHz)
+      - {ResCode: "0x000c000f", Values: [1555000]}    # 0x4303C000 RES_MPCTLV3_LLCC_DDR_BW_MIN_FREQ_V2
 
-  # Perflock config 0x00001339 - Minimal: display on + CPU cluster0 min freq
+  # Id: 0x00001339
+  # camera snapshot tunings
+  # MPCTLV3_ALL_CPUS_PWR_CLPS_DIS, 0x1
+  # Cluster min freq to 1.113 GHz
   - SigId: "0x1339"
     Category: "0xea"
     SigType: 0
@@ -370,13 +418,22 @@ SignalConfigs:
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
-      # Display: keep display on
-      - {ResCode: "RES_DISPLAY_KEEP_ON",             Values: [1]}
-      # CPU freq: cluster0 min = 1113 MHz
-      - {ResCode: "RES_CPUFREQ_MIN_FREQ",            Values: [0, 1113]}
+      - {ResCode: "0x00010000", Values: [1]}          # 0x40400000 RES_PM_QOS_CPU_DMA_LATENCY (ALL_CPUS_PWR_CLPS_DIS)
+      - {ResCode: "0x008a000e", Values: [0, 1113]}    # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster0=1113MHz)
 
-  # Perflock config 0x00001406 - identical resources to 0x00001331
-  # DDR min 933MHz, Bus DCVS max 1555MHz, CPUBW HWMON tuning, sched migration tuning
+  # Id: 0x00001406
+  # 3k30 - 3k camera 30fps
+  # CPU-LLC BWMON - Set sample_ms 33
+  # CPU-LLC BWMON - Set io_percent 100
+  # CPU-LLC BWMON - Set hyst_length hist memory 0
+  # CPU-LLC BWMON - Set max freq 933mhz
+  # CPU-LLC-DDR BWMON - Set sample_ms 33
+  # CPU-LLC-DDR BWMON - Set io_percent 100
+  # CPU-LLC-DDR BWMON - Set hyst_length hist memory 0
+  # CPU-LLC-DDR BWMON - Set min_freq 1555
+  # CPU - Disable schedutil PL
+  # CPU - Set hispeed load 99
+  # AB_SCALE - 50
   - SigId: "0x1406"
     Category: "0xea"
     SigType: 0
@@ -386,22 +443,21 @@ SignalConfigs:
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
-      # CPUBW HWMON tuning
-      - {ResCode: "RES_CPUBW_HWMON_MAXFREQ",        Values: [33]}
-      - {ResCode: "RES_CPUBW_HWMON_HYST_LENGTH",     Values: [100]}
-      - {ResCode: "RES_CPUBW_HWMON_NTOKENS",         Values: [0]}
-      - {ResCode: "RES_CPUBW_HWMON_DDR_MINFREQ",     Values: [933000]}
-      # Bus DCVS tuning
-      - {ResCode: "RES_BUS_DCVS_HYST_OPT",          Values: [33]}
-      - {ResCode: "RES_BUS_DCVS_MAXFREQ",            Values: [1555000]}
-      # Scheduler / colocation tuning
-      - {ResCode: "RES_SCHED_COLOC_DEMAND_NS",       Values: [100]}
-      - {ResCode: "RES_SCHED_GROUP_UPMIGRATE",       Values: [0]}
-      - {ResCode: "RES_SCHED_UPMIGRATE",             Values: [0]}
-      - {ResCode: "RES_SCHED_DOWNMIGRATE",           Values: [99]}
-      - {ResCode: "RES_SCHED_UCLAMP_MIN",            Values: [50]}
+      - {ResCode: "0x0006000f", Values: [33]}      # 0x4183C000 MPCTLV3_CPU_LLCC_BW_SAMPLE_MS
+      - {ResCode: "0x0006000d", Values: [100]}     # 0x41834000 MPCTLV3_CPU_LLCC_BW_IO_PERCENT
+      - {ResCode: "0x0006000e", Values: [0]}       # 0x41838000 MPCTLV3_CPU_LLCC_BW_HYST_OPT
+      - {ResCode: "0x00060012", Values: [933000]}  # 0x41848000 MPCTLV3_CPU_LLCC_BW_MAX_FREQ_V2
+      - {ResCode: "0x000c000d", Values: [33]}      # 0x43034000 MPCTLV3_LLCC_DDR_BW_SAMPLE_MS
+      - {ResCode: "0x008a0005", Values: [100]}     # 0x43020000 MPCTLV3_LLCC_DDR_BW_IO_PERCENT
+      - {ResCode: "0x000c0003", Values: [0]}       # 0x43024000 MPCTLV3_LLCC_DDR_BW_HYST_OPT
+      - {ResCode: "0x000c000f", Values: [1555000]} # 0x4303C000 RES_MPCTLV3_LLCC_DDR_BW_MIN_FREQ_V2
+      - {ResCode: "0x00050011", Values: [0]}       # 0x41444000 RES_SCHEDUTIL_PL_CLUSTER_BIG
+      - {ResCode: "0x00050010", Values: [99]}      # 0x41440000 RES_SCHEDUTIL_HISPEED_LOAD_CLUSTER_BIG
+      - {ResCode: "0x000c0012", Values: [50]}      # 0x43048000 RES_LLCC_DDR_BWMON_AB_SCALE_V2
 
-  # Perflock config 0x00001407 - GPU min freq = 0 (reset/disable GPU floor)
+  # Id: 0x00001407
+  # camera wakelock
+  # CAMERA_HAL_RBSC_SYNC_WL, 0
   - SigId: "0x1407"
     Category: "0xea"
     SigType: 0
@@ -411,5 +467,4 @@ SignalConfigs:
     Permissions: ["third_party", "system"]
     Timeout: -1
     Resources:
-      # GPU: min freq = 0 (reset GPU floor)
-      - {ResCode: "RES_GPU_MIN_FREQ",                Values: [0]}
+      - {ResCode: "0x000b0011", Values: [0]}       # 0x42C44000 RES_POWER_WAKELOCK_INPUT_BOOST_MS (CAMERA_HAL_RBSC_SYNC_WL)
