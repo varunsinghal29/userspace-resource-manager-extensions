@@ -441,3 +441,18 @@ SignalConfigs:
     Timeout: -1
     Resources:
       - {ResCode: "0x000b0011", Values: [0]}       # 0x42C44000 RES_POWER_WAKELOCK_INPUT_BOOST_MS (CAMERA_HAL_RBSC_SYNC_WL)
+
+  # Audio Signals
+  # 0x40400000: Power-collapse control, value = 0x1 = 1
+  # 0x40800000: Big-cluster minimum frequency, value = 0x514 = 1300
+  - SigId: "0x1200"
+    Category: "0xea"
+    SigType: 0
+    Name: "URM_SIG_PERFLOCK_AUDIO_Preview"
+    Enable: true
+    Permissions: ["third_party", "system"]
+    Timeout: -1
+    Resources:
+      - {ResCode: "RES_CPU_DMA_LATENCY", Values: [1]}
+      - {ResCode: "0x008a000e", ResInfo: "0x00000000", Values:[1300]}
+      - {ResCode: "RES_SCALE_MIN_FREQ", ResInfo: "CLUSTER_BIG_ALL_CORES", Values: [1300000]}  # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=1300MHz)
