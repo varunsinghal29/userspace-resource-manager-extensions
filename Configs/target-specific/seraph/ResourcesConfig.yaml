@@ -115,7 +115,7 @@ ResourceConfigs:
     Permissions: "third_party"
     Modes: ["display_on", "doze"]
     Policy: "instant_apply"
-    ApplyType: "cluster"
+    ApplyType: "core"
 
   - ResType: "0x8a"
     ResID: "0x0009"
@@ -335,7 +335,7 @@ ResourceConfigs:
     Permissions: "third_party"
     Modes: ["display_on", "doze"]
     Policy: "instant_apply"
-    ApplyType: "core"
+    ApplyType: "global"
 
   ## MPCTLV3_CPUBW_HWMON_IO_PERCENT -- legacy mp-ctl opcode 0x41808000
   # (Major 0x6 / Minor 0x2)
