@@ -454,5 +454,4 @@ SignalConfigs:
     Timeout: -1
     Resources:
       - {ResCode: "RES_CPU_DMA_LATENCY", Values: [1]}
-      - {ResCode: "0x008a000e", ResInfo: "0x00000000", Values:[1300]}
       - {ResCode: "RES_SCALE_MIN_FREQ", ResInfo: "CLUSTER_BIG_ALL_CORES", Values: [1300000]}  # 0x40800000 RES_MSM_PERF_CPU_MIN_FREQ (cluster1=1300MHz)
